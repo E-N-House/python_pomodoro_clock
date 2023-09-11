@@ -27,11 +27,16 @@ def start_click():
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
-def count_down(min, sec=0):
+
+def count_down(min, sec=10):
     if sec == 0:
         min -= 1
         sec = 59
-    print(f"{min}:{sec}")
+    if sec < 10:
+        new_text = f"{min}:0{sec}"
+    else:
+        new_text = f"{min}:{sec}"
+    canvas.itemconfig(timer_text, text=new_text)
     window.after(1000, count_down, min, sec-1)
     # curr -= 1
     # pass
@@ -50,7 +55,7 @@ canvas = Canvas(width=220, height=224, background=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file="tomato.png")
 canvas.create_image(110, 112, image=tomato_img)
 
-canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white")
+timer_text = canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white")
 canvas.grid(column=1, row=1)
 
 start_button = Button(text="Start",  highlightthickness=0)
