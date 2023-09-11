@@ -14,21 +14,22 @@ TIMER_FONT = ("Arial", 26, "bold")
 # ---------------------------- TIMER RESET ------------------------------- #
 
 def reset_click():
-    # canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white")
-
     pass
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_click():
-    # canvas.create_text(110, 140, text="11:00", font=TIMER_FONT, fill="red")
-    pass
+    count_down(WORK_MIN)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
 
-def count_down(min, sec=10):
+def count_down(min=0, sec=0):
+    if sec == 0 and min == 0:
+        print("done cycle")
+        canvas.itemconfig(timer_text, text="00:00")
+        return
     if sec == 0:
         min -= 1
         sec = 59
@@ -37,9 +38,10 @@ def count_down(min, sec=10):
     else:
         new_text = f"{min}:{sec}"
     canvas.itemconfig(timer_text, text=new_text)
+    # TODO: fix sec to 1000
     window.after(1000, count_down, min, sec-1)
-    # curr -= 1
-    # pass
+
+
 # ---------------------------- UI SETUP ------------------------------- #
 
 
@@ -68,8 +70,6 @@ reset_button.config(command=reset_click)
 
 tracker_label = Label(text="✔", background=YELLOW, fg=GREEN, font=("arial", 15))
 tracker_label.grid(column=1, row=3)
-
-count_down(WORK_MIN)
 
 window.mainloop()
 
