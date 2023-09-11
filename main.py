@@ -13,8 +13,12 @@ TIMER_FONT = ("Arial", 26, "bold")
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
+
 def reset_click():
-    pass
+    new_time = f"{WORK_MIN}:00"
+    count_down(min=0, sec=0)
+    canvas.itemconfig(timer_text, text=new_time)
+    tracker_label.config(text="")
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
@@ -39,7 +43,7 @@ def count_down(min=0, sec=0):
         new_text = f"{min}:{sec}"
     canvas.itemconfig(timer_text, text=new_text)
     # TODO: fix sec to 1000
-    window.after(1000, count_down, min, sec-1)
+    window.after(10, count_down, min, sec-1)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
