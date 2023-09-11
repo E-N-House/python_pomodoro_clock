@@ -27,7 +27,16 @@ def start_click():
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
+def count_down(min, sec=0):
+    if sec == 0:
+        min -= 1
+        sec = 59
+    print(f"{min}:{sec}")
+    window.after(1000, count_down, min, sec-1)
+    # curr -= 1
+    # pass
 # ---------------------------- UI SETUP ------------------------------- #
+
 
 window = Tk()
 window.config(bg=YELLOW, width=300, height=300, pady=50, padx=100)
@@ -55,5 +64,7 @@ reset_button.config(command=reset_click)
 tracker_label = Label(text="✔", background=YELLOW, fg=GREEN, font=("arial", 15))
 tracker_label.grid(column=1, row=3)
 
+count_down(WORK_MIN)
 
 window.mainloop()
+
