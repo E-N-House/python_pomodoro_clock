@@ -6,7 +6,9 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
+# WORK_MIN = 25
+WORK_MIN = 2
+
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
@@ -18,6 +20,8 @@ reps = 0
 
 def reset_click():
     # TODO: figure out why it resets quick and then continues to countdown rather than pause
+    global reps
+    reps = 0
     # flashes 25:00 on screen
     new_time = f"00:00"
     print(new_time)
@@ -32,34 +36,34 @@ def reset_click():
 
 def start_click():
     global reps
+    reps += 1
+    print(f"reps are {reps}")
     # TODO: change start button to pause
-    tracker_label_text = ""
-    if reps < 4:
+    # countdown long break
+    if reps % 8 == 0:
+        count_down(LONG_BREAK_MIN * 60)
 
-        print(reps)
-        # countdown work then countdown break
-        # initializes count_down as amount in seconds
-        count_down(WORK_MIN * 60)
+    # countdown break
+    elif reps % 2 == 0:
         count_down(SHORT_BREAK_MIN * 60)
 
-        # add checkmark to
-        tracker_label_text += CHECKMARK
-        print(tracker_label_text)
-        tracker_label.config(text=CHECKMARK)
-        reps += 1
-        start_click()
+    # countdown work cycle
+    else:
+        count_down(WORK_MIN * 60)
+
+    #     reps += 1
     # start_click()
-    count_down(LONG_BREAK_MIN)
 
     return True
 
 
-def short_break():
-    count_down(SHORT_BREAK_MIN * 60)
-
+def short_break_starts():
+    # count_down(SHORT_BREAK_MIN * 60)
+    pass
 
 def new_checkmark_added(checks):
     checks += CHECKMARK
+    tracker_label.config(text=checks)
     print(checks)
 
 
@@ -69,6 +73,7 @@ is_going = True
 
 
 def count_down(count):
+    print(count)
 
     # reset the count to whole minutes rounded down
     minutes = math.floor(count/60)
@@ -91,7 +96,7 @@ def count_down(count):
         canvas.itemconfig(timer_text, text=new_text)
         # TODO: fix sec to 1000
         # sets time interval to be once a second and feeds in the new count minus 1 second
-        window.after(10, count_down, count-1)
+        window.after(3, count_down, count-1)
 
 
 
