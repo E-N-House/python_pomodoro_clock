@@ -73,7 +73,7 @@ is_going = True
 
 
 def count_down(count):
-    print(count)
+    # print(count)
 
     # reset the count to whole minutes rounded down
     minutes = math.floor(count/60)
@@ -84,12 +84,7 @@ def count_down(count):
     if seconds < 10:
         seconds = f"0{seconds}"
 
-    # checks for finished countdown and exits loop
-    if count == 0:
-        print("done cycle")
-        canvas.itemconfig(timer_text, text="00:00")
-        return
-    else:
+    if count > 0:
         # formats timer display
         new_text = f"{minutes}:{seconds}"
         # shows timer display on screen
@@ -98,10 +93,14 @@ def count_down(count):
         # sets time interval to be once a second and feeds in the new count minus 1 second
         window.after(3, count_down, count-1)
 
+    # checks for finished countdown and exits loop
+    else:
+        canvas.itemconfig(timer_text, text="00:00")
+        start_click()
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
-
 
 window = Tk()
 window.config(bg=YELLOW, width=300, height=300, pady=50, padx=100)
