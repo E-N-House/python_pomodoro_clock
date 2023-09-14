@@ -1,5 +1,4 @@
 from tkinter import *
-
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
@@ -15,9 +14,14 @@ TIMER_FONT = ("Arial", 26, "bold")
 
 
 def reset_click():
-    new_time = f"{WORK_MIN}:00"
-    count_down(min=0, sec=0)
+    # TODO: figure out why it resets quick and then continues to countdown rather than pause
+    # flashes 25:00 on screen
+    new_time = f"00:00"
+    print(new_time)
     canvas.itemconfig(timer_text, text=new_time)
+    # count_down(min=0, sec=0)
+
+    # Resets checkmarks to NONE
     tracker_label.config(text="")
 
 
