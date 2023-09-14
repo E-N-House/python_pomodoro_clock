@@ -1,3 +1,4 @@
+import math
 from tkinter import *
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -9,6 +10,8 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
+CHECKMARK = "✔"
+reps = 0
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
@@ -28,26 +31,68 @@ def reset_click():
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_click():
-    count_down(WORK_MIN)
+    global reps
+    # TODO: change start button to pause
+    tracker_label_text = ""
+    if reps < 4:
+
+        print(reps)
+        # countdown work then countdown break
+        # initializes count_down as amount in seconds
+        count_down(WORK_MIN * 60)
+        count_down(SHORT_BREAK_MIN * 60)
+
+        # add checkmark to
+        tracker_label_text += CHECKMARK
+        print(tracker_label_text)
+        tracker_label.config(text=CHECKMARK)
+        reps += 1
+        start_click()
+    # start_click()
+    count_down(LONG_BREAK_MIN)
+
+    return True
+
+
+def short_break():
+    count_down(SHORT_BREAK_MIN * 60)
+
+
+def new_checkmark_added(checks):
+    checks += CHECKMARK
+    print(checks)
+
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
+is_going = True
 
-def count_down(min=0, sec=0):
-    if sec == 0 and min == 0:
+
+def count_down(count):
+
+    # reset the count to whole minutes rounded down
+    minutes = math.floor(count/60)
+    # find remainder of seconds
+    seconds = count % 60
+
+    # formats seconds in 0Num format as a string
+    if seconds < 10:
+        seconds = f"0{seconds}"
+
+    # checks for finished countdown and exits loop
+    if count == 0:
         print("done cycle")
         canvas.itemconfig(timer_text, text="00:00")
         return
-    if sec == 0:
-        min -= 1
-        sec = 59
-    if sec < 10:
-        new_text = f"{min}:0{sec}"
     else:
-        new_text = f"{min}:{sec}"
-    canvas.itemconfig(timer_text, text=new_text)
-    # TODO: fix sec to 1000
-    window.after(10, count_down, min, sec-1)
+        # formats timer display
+        new_text = f"{minutes}:{seconds}"
+        # shows timer display on screen
+        canvas.itemconfig(timer_text, text=new_text)
+        # TODO: fix sec to 1000
+        # sets time interval to be once a second and feeds in the new count minus 1 second
+        window.after(10, count_down, count-1)
+
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -76,7 +121,7 @@ reset_button = Button(text="Reset",  highlightthickness=0)
 reset_button.grid(column=2, row=2)
 reset_button.config(command=reset_click)
 
-tracker_label = Label(text="✔", background=YELLOW, fg=GREEN, font=("arial", 15))
+tracker_label = Label(text="", background=YELLOW, fg=GREEN, font=("arial", 15))
 tracker_label.grid(column=1, row=3)
 
 window.mainloop()
