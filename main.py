@@ -6,8 +6,8 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-# WORK_MIN = 25
-WORK_MIN = 2
+WORK_MIN = 25
+# WORK_MIN = 2
 
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
@@ -45,6 +45,7 @@ def start_click():
 
     # countdown break
     elif reps % 2 == 0:
+        new_checkmark_added(tracker_label["text"])
         count_down(SHORT_BREAK_MIN * 60)
 
     # countdown work cycle
@@ -57,9 +58,10 @@ def start_click():
     return True
 
 
-def short_break_starts():
-    # count_down(SHORT_BREAK_MIN * 60)
+def break_starts():
+    # for changing ui design on break
     pass
+
 
 def new_checkmark_added(checks):
     checks += CHECKMARK
@@ -89,9 +91,9 @@ def count_down(count):
         new_text = f"{minutes}:{seconds}"
         # shows timer display on screen
         canvas.itemconfig(timer_text, text=new_text)
-        # TODO: fix sec to 1000
+        # DONE: fix sec to 1000
         # sets time interval to be once a second and feeds in the new count minus 1 second
-        window.after(3, count_down, count-1)
+        window.after(1000, count_down, count-1)
 
     # checks for finished countdown and exits loop
     else:
