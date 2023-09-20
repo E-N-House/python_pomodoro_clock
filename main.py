@@ -24,6 +24,8 @@ is_cycling = False
 def reset_click():
     # TODO: figure out why it resets quick and then continues to countdown rather than pause and switches between 5 and 25 counts
     global reps
+    global is_cycling
+    is_cycling = False
     # reps resets correctly,
     print(f"{reps} reps at start reset")
     reps = 0
@@ -31,7 +33,8 @@ def reset_click():
     print(f"{reps} reps at end reset")
 
     canvas.itemconfig(timer_text, text=new_time)
-    start_button["text"] = " Start "
+    start_button["text"] = "Start"
+    start_button["state"] = "active"
     # count_down(min=0, sec=0)
 
     # Resets checkmarks to NONE
@@ -47,7 +50,7 @@ def start_click():
         is_cycling = False
         print(is_cycling)
     # change start button to pause
-    start_button["text"] = "Pause"
+    start_button["state"] = "disable"
     # TODO: start countdown cycle at beginning
     is_cycling = True
     countdown_cycle()
@@ -76,10 +79,6 @@ def countdown_cycle():
     # countdown work cycle
     else:
         count_down(WORK_MIN * 60)
-
-    #     reps += 1
-    # start_click()
-
     return True
 
 
@@ -91,8 +90,6 @@ def break_starts():
 def new_checkmark_added(checks):
     checks += CHECKMARK
     tracker_label.config(text=checks)
-    print(checks)
-
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
