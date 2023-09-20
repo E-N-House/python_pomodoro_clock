@@ -13,19 +13,25 @@ SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
 CHECKMARK = "✔"
+# 1000 normally
+SPEED = 1
 reps = 0
+is_cycling = False
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
 
 def reset_click():
-    # TODO: figure out why it resets quick and then continues to countdown rather than pause
+    # TODO: figure out why it resets quick and then continues to countdown rather than pause and switches between 5 and 25 counts
     global reps
+    # reps resets correctly,
+    print(f"{reps} reps at start reset")
     reps = 0
-    # flashes 25:00 on screen
     new_time = f"00:00"
-    print(new_time)
+    print(f"{reps} reps at end reset")
+
     canvas.itemconfig(timer_text, text=new_time)
+    start_button["text"] = " Start "
     # count_down(min=0, sec=0)
 
     # Resets checkmarks to NONE
@@ -35,12 +41,31 @@ def reset_click():
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_click():
+    global is_cycling
+    print(f"{is_cycling} is cycling line 44")
+    if is_cycling:
+        is_cycling = False
+        print(is_cycling)
+    # change start button to pause
+    start_button["text"] = "Pause"
+    # TODO: start countdown cycle at beginning
+    is_cycling = True
+    countdown_cycle()
+
+
+def countdown_cycle():
     global reps
+    global is_cycling
     reps += 1
     print(f"reps are {reps}")
-    # TODO: change start button to pause
     # countdown long break
-    if reps % 8 == 0:
+    if reps == 0 or reps > 8:
+        # count_down(0)
+        is_cycling = False
+        print(is_cycling)
+        return
+    elif reps % 8 == 0:
+        new_checkmark_added(tracker_label["text"])
         count_down(LONG_BREAK_MIN * 60)
 
     # countdown break
@@ -71,8 +96,6 @@ def new_checkmark_added(checks):
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
-is_going = True
-
 
 def count_down(count):
     # print(count)
@@ -93,8 +116,10 @@ def count_down(count):
         canvas.itemconfig(timer_text, text=new_text)
         # DONE: fix sec to 1000
         # sets time interval to be once a second and feeds in the new count minus 1 second
-        window.after(1000, count_down, count-1)
+        window.after(SPEED, count_down, count-1)
 
+    elif count == 0 and not is_cycling:
+        reset_click()
     # checks for finished countdown and exits loop
     else:
         canvas.itemconfig(timer_text, text="00:00")
@@ -119,11 +144,11 @@ canvas.create_image(110, 112, image=tomato_img)
 timer_text = canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white")
 canvas.grid(column=1, row=1)
 
-start_button = Button(text="Start",  highlightthickness=0)
+start_button = Button(text="Start",  highlightthickness=0, width=-5)
 start_button.grid(column=0, row=2)
 start_button.config(command=start_click)
 
-reset_button = Button(text="Reset",  highlightthickness=0)
+reset_button = Button(text="Reset",  highlightthickness=0, width=-5)
 reset_button.grid(column=2, row=2)
 reset_button.config(command=reset_click)
 
