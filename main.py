@@ -14,7 +14,7 @@ LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
 CHECKMARK = "✔"
 # 1000 normally
-SPEED = 1000
+SPEED = 1
 reps = 0
 is_cycling = False
 timer = None
@@ -23,10 +23,11 @@ timer = None
 
 
 def reset_click():
-    # TODO: figure out why it resets quick and then continues to countdown rather than pause and switches between 5 and 25 counts
+    # figured out why it resets quick and then continues to countdown rather than set to zero
+    # has to do with window.after_cancel(func to cancel)
     global reps
     global is_cycling
-    is_cycling = False
+    # is_cycling = False
     # reps resets correctly,
     reps = 0
     window.after_cancel(timer)
@@ -59,11 +60,11 @@ def countdown_cycle():
     global reps
     global is_cycling
     reps += 1
-    # countdown long break
     if reps == 0 or reps > 8:
         # turn off cycles
         is_cycling = False
         return
+    # countdown long break
     elif reps % 8 == 0:
         # Long Break UI
         new_checkmark_added(tracker_label["text"])
