@@ -73,23 +73,20 @@ def countdown_cycle():
 
     # countdown break
     elif reps % 2 == 0:
+        # Short Break UI
         new_checkmark_added(checkmarks_display["text"])
         main_label["text"] = "Break"
         main_label["fg"] = PINK
+
         count_down(SHORT_BREAK_MIN * 60)
 
     # countdown work cycle
     else:
+        # Work Cycle UI
         main_label["text"] = "Work"
         main_label["fg"] = GREEN
 
         count_down(WORK_MIN * 60)
-    return True
-
-
-def break_starts():
-    # for changing ui design on break
-    pass
 
 
 def new_checkmark_added(checks):
@@ -100,6 +97,8 @@ def new_checkmark_added(checks):
 
 
 def count_down(count):
+    """takes in a number of seconds as count. Converts to minutes and seconds
+    formats and displays minute:seconds on timer. calls itself recursively until count hits 0"""
 
     # reset the count to whole minutes rounded down
     minutes = math.floor(count/60)
@@ -116,13 +115,10 @@ def count_down(count):
         new_text = f"{minutes}:{seconds}"
         # shows timer display on screen
         canvas.itemconfig(timer_text, text=new_text)
-        # DONE: fix sec to 1000
         # sets time interval to be once a second and feeds in the new count minus 1 second
         timer = window.after(SPEED, count_down, count-1)
 
-    elif count == 0 and not is_cycling:
-        reset_click()
-    # checks for finished countdown and exits loop
+    # checks for finished countdown and starts next loop
     else:
         canvas.itemconfig(timer_text, text="00:00")
         start_click()
