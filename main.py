@@ -7,14 +7,12 @@ GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
 WORK_MIN = 25
-# WORK_MIN = 2
 
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
 CHECKMARK = "✔"
-# 1000 normally
-SPEED = 1
+SPEED = 1000
 reps = 0
 is_cycling = False
 timer = None
