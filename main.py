@@ -33,15 +33,13 @@ def reset_click():
     window.after_cancel(timer)
     new_time = f"00:00"
 
-    # resets UI of start button and checkmarks
+    # resets UI of main label, start button and checkmarks
     main_label["text"] = "Timer"
     main_label["fg"] = GREEN
     canvas.itemconfig(timer_text, text=new_time)
     start_button["text"] = "Start"
     start_button["state"] = "active"
-
-    # Resets checkmarks to NONE
-    tracker_label.config(text="")
+    checkmarks_display.config(text="")
 
 
 # ---------------------------- TIMER MECHANISM ------------------------------- #
@@ -67,14 +65,14 @@ def countdown_cycle():
     # countdown long break
     elif reps % 8 == 0:
         # Long Break UI
-        new_checkmark_added(tracker_label["text"])
+        new_checkmark_added(checkmarks_display["text"])
         main_label["text"] = "Break"
         main_label["fg"] = RED
         count_down(LONG_BREAK_MIN * 60)
 
     # countdown break
     elif reps % 2 == 0:
-        new_checkmark_added(tracker_label["text"])
+        new_checkmark_added(checkmarks_display["text"])
         main_label["text"] = "Break"
         main_label["fg"] = PINK
         count_down(SHORT_BREAK_MIN * 60)
@@ -95,7 +93,7 @@ def break_starts():
 
 def new_checkmark_added(checks):
     checks += CHECKMARK
-    tracker_label.config(text=checks)
+    checkmarks_display.config(text=checks)
 
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
@@ -154,7 +152,7 @@ reset_button = Button(text="Reset",  highlightthickness=0, width=-5)
 reset_button.grid(column=2, row=2)
 reset_button.config(command=reset_click)
 
-tracker_label = Label(text="", background=YELLOW, fg=GREEN, font=("arial", 15))
-tracker_label.grid(column=1, row=3)
+checkmarks_display = Label(text="", background=YELLOW, fg=GREEN, font=("arial", 15))
+checkmarks_display.grid(column=1, row=3)
 
 window.mainloop()
