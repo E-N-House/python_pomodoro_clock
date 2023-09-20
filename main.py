@@ -26,8 +26,6 @@ def reset_click():
     # figured out why it resets quick and then continues to countdown rather than set to zero
     # has to do with window.after_cancel(func to cancel)
     global reps
-    global is_cycling
-    # is_cycling = False
     # reps resets correctly,
     reps = 0
     window.after_cancel(timer)
