@@ -31,6 +31,8 @@ def reset_click():
     new_time = f"00:00"
 
     # resets UI of start button and checkmarks
+    main_label["text"] = "Timer"
+    main_label["fg"] = GREEN
     canvas.itemconfig(timer_text, text=new_time)
     start_button["text"] = "Start"
     start_button["state"] = "active"
@@ -60,19 +62,26 @@ def countdown_cycle():
     if reps == 0 or reps > 8:
         # count_down(0)
         is_cycling = False
-        print(is_cycling)
         return
     elif reps % 8 == 0:
         new_checkmark_added(tracker_label["text"])
+        main_label["text"] = "Break"
+        main_label["fg"] = RED
+
         count_down(LONG_BREAK_MIN * 60)
 
     # countdown break
     elif reps % 2 == 0:
         new_checkmark_added(tracker_label["text"])
+        main_label["text"] = "Break"
+        main_label["fg"] = PINK
         count_down(SHORT_BREAK_MIN * 60)
 
     # countdown work cycle
     else:
+        main_label["text"] = "Work"
+        main_label["fg"] = GREEN
+
         count_down(WORK_MIN * 60)
     return True
 
@@ -122,10 +131,10 @@ def count_down(count):
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
-window.config(bg=YELLOW, width=300, height=300, pady=50, padx=100)
+window.config(bg=YELLOW, width=500, height=300, pady=50, padx=100)
 window.title("Pomodoro Timer")
 
-main_label = Label(text="Timer", background=YELLOW, font=(FONT_NAME,50), foreground=GREEN)
+main_label = Label(text="Timer", background=YELLOW, font=(FONT_NAME, 50), foreground=GREEN,)
 main_label.grid(column=1, row=0)
 main_label.config(pady=10)
 
@@ -133,7 +142,7 @@ canvas = Canvas(width=220, height=224, background=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file="tomato.png")
 canvas.create_image(110, 112, image=tomato_img)
 
-timer_text = canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white")
+timer_text = canvas.create_text(110, 140, text="00:00", font=TIMER_FONT, fill="white", width=-100)
 canvas.grid(column=1, row=1)
 
 start_button = Button(text="Start",  highlightthickness=0, width=-5)
