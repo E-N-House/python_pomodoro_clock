@@ -31,14 +31,17 @@ def reset_click():
     # reps resets correctly,
     reps = 0
     window.after_cancel(timer)
-    new_time = f"00:00"
 
-    # resets UI of main label, start button and checkmarks
+    # resets UI of main label, timer, start button and checkmarks
     main_label["text"] = "Timer"
     main_label["fg"] = GREEN
+
+    new_time = f"00:00"
     canvas.itemconfig(timer_text, text=new_time)
+
     start_button["text"] = "Start"
     start_button["state"] = "active"
+
     checkmarks_display.config(text="")
 
 
