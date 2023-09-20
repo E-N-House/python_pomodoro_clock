@@ -27,15 +27,13 @@ def reset_click():
     global is_cycling
     is_cycling = False
     # reps resets correctly,
-    print(f"{reps} reps at start reset")
     reps = 0
     new_time = f"00:00"
-    print(f"{reps} reps at end reset")
 
+    # resets UI of start button and checkmarks
     canvas.itemconfig(timer_text, text=new_time)
     start_button["text"] = "Start"
     start_button["state"] = "active"
-    # count_down(min=0, sec=0)
 
     # Resets checkmarks to NONE
     tracker_label.config(text="")
@@ -45,13 +43,10 @@ def reset_click():
 
 def start_click():
     global is_cycling
-    print(f"{is_cycling} is cycling line 44")
     if is_cycling:
         is_cycling = False
-        print(is_cycling)
-    # change start button to pause
     start_button["state"] = "disable"
-    # TODO: start countdown cycle at beginning
+    # start countdown cycle at beginning
     is_cycling = True
     countdown_cycle()
 
