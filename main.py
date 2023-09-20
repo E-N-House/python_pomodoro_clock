@@ -14,9 +14,10 @@ LONG_BREAK_MIN = 20
 TIMER_FONT = ("Arial", 26, "bold")
 CHECKMARK = "✔"
 # 1000 normally
-SPEED = 1
+SPEED = 1000
 reps = 0
 is_cycling = False
+timer = None
 
 # ---------------------------- TIMER RESET ------------------------------- #
 
@@ -28,6 +29,7 @@ def reset_click():
     is_cycling = False
     # reps resets correctly,
     reps = 0
+    window.after_cancel(timer)
     new_time = f"00:00"
 
     # resets UI of start button and checkmarks
@@ -99,7 +101,6 @@ def new_checkmark_added(checks):
 
 
 def count_down(count):
-    # print(count)
 
     # reset the count to whole minutes rounded down
     minutes = math.floor(count/60)
@@ -111,13 +112,14 @@ def count_down(count):
         seconds = f"0{seconds}"
 
     if count > 0:
+        global timer
         # formats timer display
         new_text = f"{minutes}:{seconds}"
         # shows timer display on screen
         canvas.itemconfig(timer_text, text=new_text)
         # DONE: fix sec to 1000
         # sets time interval to be once a second and feeds in the new count minus 1 second
-        window.after(SPEED, count_down, count-1)
+        timer = window.after(SPEED, count_down, count-1)
 
     elif count == 0 and not is_cycling:
         reset_click()
