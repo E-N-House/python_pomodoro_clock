@@ -59,17 +59,16 @@ def countdown_cycle():
     global reps
     global is_cycling
     reps += 1
-    print(f"reps are {reps}")
     # countdown long break
     if reps == 0 or reps > 8:
-        # count_down(0)
+        # turn off cycles
         is_cycling = False
         return
     elif reps % 8 == 0:
+        # Long Break UI
         new_checkmark_added(tracker_label["text"])
         main_label["text"] = "Break"
         main_label["fg"] = RED
-
         count_down(LONG_BREAK_MIN * 60)
 
     # countdown break
