@@ -126,9 +126,8 @@ def count_down(count):
         canvas.itemconfig(timer_text, text="00:00")
         start_click()
 
-
-
 # ---------------------------- UI SETUP ------------------------------- #
+
 
 window = Tk()
 window.config(bg=YELLOW, width=500, height=300, pady=50, padx=100)
@@ -157,4 +156,3 @@ tracker_label = Label(text="", background=YELLOW, fg=GREEN, font=("arial", 15))
 tracker_label.grid(column=1, row=3)
 
 window.mainloop()
-
